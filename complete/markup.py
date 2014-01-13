@@ -4,15 +4,12 @@ from util import *
 from rules import *
 
 class Parser:
-    """
-    语法分析器读取文本文件、应用规则并且控制处理程序
-    """
     def __init__(self, handler):
         self.handler = handler
         self.rules = []
         self.filters = []
     def addRule(self, rule):
-        self.rule.append(rule)
+        self.rules.append(rule)
     def addFilter(self, pattern, name):
         def filter(block, handler):
             return re.sub(pattern, handler.sub(name), block)
@@ -30,9 +27,6 @@ class Parser:
         self.handler.end('document')
 
 class BasicTextParser(Parser):
-    """
-    在构造函数中增加规则和过滤器的具体语法分析器
-    """
     def __init__(self, handler):
         Parser.__init__(self, handler)
         self.addRule(ListRule())
@@ -41,9 +35,9 @@ class BasicTextParser(Parser):
         self.addRule(HeadingRule())
         self.addRule(ParagraphRule())
 
-        self.addFilters(r'\*(.+?)\*', 'emphasis')
-        self.addFilters(r'(http://[\.a-zA-Z/]+)', 'url')
-        self.addFilters(r'([\.a-zA-Z]+@[\.a-zA-Z]+[a-zA-Z]+)', 'mail')
+        self.addFilter(r'\*(.+?)\*', 'emphasis')
+        self.addFilter(r'(http://[\.a-zA-Z/]+)', 'url')
+        self.addFilter(r'([\.a-zA-Z]+@[\.a-zA-Z]+[a-zA-Z]+)', 'mail')
 
 
 handler = HTMLHandler()

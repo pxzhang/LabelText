@@ -1,11 +1,4 @@
 class Handler:
-    """
-    处理从Parser调用的方法的对象
-
-    这个解析器会在每个块的开始部分调用start()和end()方法，使用合适的
-    块名作为参数。sub()方法会用于正则表达式的替换中。当使用了'emphasis'
-    这样的名字调用时，它会返回合适的参数替换函数。
-    """
     def callback(self, prefix, name, *args):
         method = getattr(self, prefix + name, None)
         if callable(method):
@@ -22,13 +15,7 @@ class Handler:
             return result
         return substitution
 
-class HTMLRender(Handler):
-    """
-    用于生成HTML的具体处理程序
-
-    HTMLRender内的方法都可以通过超累处理程序的start()、end()
-    和sub()方法来访问。它们实现了用于HTML文档的基本标签。
-    """
+class HTMLHandler(Handler):
     def start_document(self):
         print('<html><head><title>...</title></head><body>')
     def end_document(self):
